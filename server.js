@@ -1,8 +1,7 @@
 const connectDB = require('./src/config/database');
 const app = require('./src/app')
 
-console.log(process.env.PORT);
-const port = 3000
+const port = process.env.PORT || 3000
 
 connectDB().then(() => {
     console.log("Database connection successfully!");

@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 
 const { userAuth,adminAuth } = require('./middlewares/auth.middleware');
 
