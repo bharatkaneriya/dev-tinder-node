@@ -1,41 +1,95 @@
-const User = require('../models/user.model');
+const {
+    registerValidator,
+    loginValidator
+} = require('../validations/auth.validation');
+const {
+    registerService, 
+    validateEmailService, 
+    validateUsernameService, 
+    loginService, 
+    forgotPasswordService, 
+    resetPasswordService,
+    logoutService
+} = require('../services/auth.service');
 
-const regsiter = async (req,res) => {
-    console.log('register!');
-    console.log(req.body);
-
+exports.regsiter = async (req,res,next) => {
     try{
-        const user = new User(req.body);
-        await user.save();
-        res.send('Registered successfully!');
-
+        registerValidator(req);
+        const user = await registerService(req);
+        res.status(200).json({ success: true, data: user,message:"Registered successfully!" });
+        
     }
     catch(err){
-        console.error(err);
-        res.status(400).send(err.message)
+        res.status(400).json({ success: false, data: [],message: err.message });
     }
 };
 
-const validateEmail = async (req,res) => {
+exports.validateEmail = async (req,res) => {
+    try{
+        registerValidator(req);
+        await validateEmailService(req);
 
+        res.status(200).json({ success: true, data: user,message:"Registered successfully!" });
+    }
+    catch(err){
+        res.status(400).json({ success: false, data: [],message: err.message });
+    }
 }
 
-const validateUsername = async (req,res) => {
+exports.validateUsername = async (req,res) => {
+    try{
+        registerValidator(req);
+        await validateUsernameService(req);
 
+        res.status(200).json({ success: true, data: user,message:"Registered successfully!" });
+    }
+    catch(err){
+        res.status(400).json({ success: false, data: [],message: err.message });
+    }
 }
 
-const login = async (req, res) => {
-
+exports.login = async (req, res) => {
+    try{
+        loginValidator(req);
+        const user = await loginService(req);
+        
+        res.status(200).json({ success: true, data: user,message:"Login successfully!" });
+    }
+    catch(err){
+        res.status(400).json({ success: false, data: [],message: err.message });
+    }
 }
 
-const forgotPassword = async (req, res) => {
-
+exports.logout = async (req, res) => {
+    try{
+        await logoutService(req);
+        res.status(200).json({ success: true, data: [],message:"Logged success!" });
+    }
+    catch(err){
+        res.status(400).json({ success: false, data: [],message: err.message });
+    }
 }
 
-const resetPassword = async (req,res) => {
-
+exports.forgotPassword = async (req, res) => {
+    try{
+        registerValidator(req);
+        await forgotPasswordService(req);
+        
+        res.status(200).json({ success: true, data: user,message:"Registered successfully!" });
+    }
+    catch(err){
+        res.status(400).json({ success: false, data: [],message: err.message });
+    }
 }
 
-module.exports = {
-    regsiter
-};
+exports.resetPassword = async (req,res) => {
+    try{
+        registerValidator(req);
+        resetPasswordService(req);
+        
+        res.status(200).json({ success: true, data: user,message:"Registered successfully!" });
+    }
+    catch(err){
+        res.status(400).json({ success: false, data: [],message: err.message });
+    }
+}

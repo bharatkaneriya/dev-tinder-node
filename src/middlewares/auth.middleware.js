@@ -1,24 +1,38 @@
-const userAuth = (req,res,next) => {
-    const token='xyz';
-    isUserauthenticated=token === 'xyz';
-    if(!isUserauthenticated){
-        res.status(401).send('unAutheticated!');
-    }else{
-        next();
-    }
-}
+const jwt = require("jsonwebtoken");
+const User = require("../models/user.model");
 
-const adminAuth = (req,res,next) => {
-    const token = 'xyz';
-    const isAdminAuthenticated = token === 'xyz';
-    if(!isAdminAuthenticated){
-        res.status(401).send('unAuthenticated Admin!')
-    }else{
-        next();
-    }
-}
+exports.userAuth = async (req,res,next) => {
+    const authHeader = req.headers.authorization;
 
-module.exports = {
-    userAuth,
-    adminAuth
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({
+            success: false,
+            message: "Unauthorized",
+        });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    try {
+        const decodedObj = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        userID = decodedObj._id;
+        const user = await User.findOne({
+            _id:userID,
+            "devices.accessToken": token,
+        });
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid token!",
+            });
+        }
+        req.user = user;
+        req.accessToken = token;
+        next();
+    } catch (err) {
+        return res.status(401).json({
+            success: false,
+            message: "Invalid token!",
+        });
+    }
 }

@@ -1,21 +1,25 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
+const errorHandler = require("./middlewares/error.middleware");
 
-const { userAuth,adminAuth } = require('./middlewares/auth.middleware');
+const routes = require("./routes");
 
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
+app.use("/v1", routes);
+
+
+// global error handler
+app.use(errorHandler);
+
+/* app.use((req, res, next) => {
   console.log("METHOD:", req.method);
   console.log("HEADERS:", req.headers["content-type"]);
   console.log("BODY:", req.body);
   next();
-});
+}); */
 
-// import routes
-const authRouter = require('./routes/auth.route');
-app.use("/v1",authRouter);
 
 module.exports = app;
