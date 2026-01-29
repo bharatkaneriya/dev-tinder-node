@@ -28,6 +28,20 @@ exports.registerValidator = (req) => {
     }
 }
 
+exports.validateEmailValidator = (req) => {
+    const {email} = req.body;
+    if(!email){
+        throw Error('Email is required!');
+    }
+}
+
+exports.validateUsernameValidator = (req) => {
+    const {userName} = req.body;
+    if(!userName){
+        throw Error('Username is required!');
+    }
+}
+
 
 exports.loginValidator = (req) => {
     const {email, password} = req.body;
@@ -42,28 +56,35 @@ exports.loginValidator = (req) => {
     }
 }
 
-exports.resetPasswordValidator = (req) => {
-    const {email, password} = req.body;
+exports.forgotPasswordValidator = (req) => {
+    const {email} = req.body;
     if(!email){
         throw Error('Email is required!');
     }
-    else if(!validator.isEmail(email)){
-        throw Error('Email is invalid!');
-    }   
+}
+
+exports.verifyForgotPasswordValidator = (req) => {
+    const {email, code} = req.body;
+    if(!email){
+        throw Error('Email is required!');
+    }
+    else if(!code){
+        throw Error('Code is required!');
+    }
+    else if(code.length !==6){
+        throw Error('Code is invalid!');
+    }
 }
 
 exports.resetPasswordValidator = (req) => {
-    const {firstName, lastName, userName, email, password} = req.body;
-    if(!email){
-        throw Error('Email is required!');
+    const {resetToken, newPassword} = req.body;
+    if(!resetToken){
+        throw Error('Reset password token is required!');
     }
-    else if(!validator.isEmail(email)){
-        throw Error('Email is invalid!');
-    }
-    else if(!password){
+    else if(!newPassword){
         throw Error('Password is required!');
     }
-    else if(!validator.isStrongPassword(password)){
+    else if(!validator.isStrongPassword(newPassword)){
         throw Error('Password is week!');
     }
 }

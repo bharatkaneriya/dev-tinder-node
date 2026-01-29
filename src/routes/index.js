@@ -6,6 +6,6 @@ const profileFeedRouter = require("./profileFeed.route");
 
 router.use("/auth", authRouter);
 router.use("/profile-feed", profileFeedRouter);
-router.use("/myprofile", ProfileRoute);
+router.use("/my-profile", ProfileRoute);
 
 module.exports = router;

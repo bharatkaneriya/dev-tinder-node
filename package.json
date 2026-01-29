@@ -1,14 +1,14 @@
 {
-	"name": "devtinder-backend",
+	"name": "likeddev-backend",
 	"version": "1.0.0",
-	"description": "dev tinder backend",
-	"homepage": "https://github.com/bharatkaneriya/dev-tinder-node#readme",
+	"description": "LinkedDev backend: social media platform for devlopers.",
+	"homepage": "https://github.com/bharatkaneriya/liked-dev-node#readme",
 	"bugs": {
-		"url": "https://github.com/bharatkaneriya/dev-tinder-node/issues"
+		"url": "https://github.com/bharatkaneriya/liked-dev-node/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/bharatkaneriya/dev-tinder-node.git"
+		"url": "git+https://github.com/bharatkaneriya/liked-dev-node.git"
 	},
 	"license": "ISC",
 	"author": "Bharat K",
